@@ -5,43 +5,55 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
-    public Rigidbody2D rb;
-    
-    private Vector2 moveDirection;
+    public Rigidbody2D rb2d;
+    private Vector2 moveInput;
+   
+   private float activeMoveSpeed;
+   public float dashSpeed;
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Processing Inputs
-        ProcessInputs();
-    }
+   public float dashLength = .5f, dashCooldown = 1f;
 
-    /// <summary>
-    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled
-    /// </summary>
-    ///Fixed Update is better for physicsc calculations - consistant calls
-    void FixedUpdate()
-    {
-        // Physics Calculations
-        Move();
-    }
+   private float dashCounter;
+   private float dashCoolCounter;
 
+   void Start()
+   {
+       activeMoveSpeed = moveSpeed;
+   }
 
-    void ProcessInputs()
-    {
-        float moveX = Input.GetAxisRaw("Horizontal"); //Raw gives value of 0 OR 1 - better for keyboard, where for controller we would use not Raw as it can have values between 0 and 1
-        float moveY = Input.GetAxisRaw("Vertical");
+   void Update()
+   {
+       moveInput.x = Input.GetAxisRaw("Horizontal");
+       moveInput.y = Input.GetAxisRaw("Vertical");
 
-        moveDirection = new Vector2(moveX, moveY).normalized; //every direction we move in the speed is normalized and capped on 1 (normally it will move faster diagonally, as we add 2 vectorsin this situation )
-    }
+       moveInput.Normalize();
 
-    /// <summary>
-    /// Callback for processing animation movmenmts for modifying root motion.
-    /// </summary>
+       rb2d.velocity = moveInput * moveSpeed;
 
-    void Move()
-    {
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-    }
+       if(Input.GetKeyDown(KeyCode.Space))
+       {
+           if (dashCoolCounter <= 0 && dashCounter <= 0)
+           {
+               activeMoveSpeed = dashSpeed;
+               dashCounter = dashLength;
+           }
+       }
 
-}
+       if (dashCounter > 0)
+       {
+           dashCounter -= Time.deltaTime;
+
+           if (dashCounter <= 0)
+           {
+               activeMoveSpeed = moveSpeed;
+               dashCoolCounter = dashCooldown;
+           }
+       }
+
+        if(dashCoolCounter > 0)
+        {
+            dashCoolCounter -= Time.deltaTime;
+        }
+
+   }
+   }
