@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private float dashCoolCounter;
     public Animator animator;
 
-
     void Start()
     {
         activeMoveSpeed = moveSpeed;
@@ -37,7 +36,6 @@ public class PlayerController : MonoBehaviour
 
         rb2d.velocity = moveInput * activeMoveSpeed;
 
-        //Dashing
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (dashCoolCounter <= 0 && dashCounter <= 0)
@@ -63,8 +61,6 @@ public class PlayerController : MonoBehaviour
         {
             dashCoolCounter -= Time.deltaTime;
         }
-
-
 
     }
 }
