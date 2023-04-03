@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6387752895083468526}
   - component: {fileID: 6387752895083468527}
   - component: {fileID: 6387752895083468524}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stormtrooper 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

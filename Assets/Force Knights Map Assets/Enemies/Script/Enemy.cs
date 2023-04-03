@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public class Enemy : MonoBehaviour
 {  //set the values in the inspector
+    public Animator animator;
+
     public Transform target; //drag and stop player object in the inspector
     public float within_range;
     public float speed;
     public Vector2 startPos;
+
+    public int maxHealth = 100;
+    int currentHealth;
     
     public void Start()
     {
         //chooses a random position for stormtrooper to move to.
         startPos = new Vector2(Random.Range(-10f, 9f), Random.Range(-5f, 4f));
+
+         currentHealth = maxHealth;
     }
 
 
@@ -36,4 +43,27 @@ public class EnemyScript : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, startPos, speed);
         }
         }
+
+        public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        animator.SetTrigger("Hurt");
+
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("Enemy died");
+
+        animator.SetBool("IsDead", true);
+
+        GetComponent<Collider2D>().enabled = false;
+        this.enabled = false;
+        
+    }
 }
