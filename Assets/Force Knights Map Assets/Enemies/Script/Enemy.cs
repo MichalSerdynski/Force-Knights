@@ -65,5 +65,10 @@ public class Enemy : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
         
+
+    }
+    void OnDeathAnimationFinished()
+    {
+        Destroy(gameObject);
     }
 }
