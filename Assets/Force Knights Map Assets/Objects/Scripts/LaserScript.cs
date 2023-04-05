@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaserScript : MonoBehaviour
 {
     public Animator animator;
-    public Rigidbody2D rigidbody;
+    public BoxCollider2D boxCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +16,10 @@ public class LaserScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameObject.FindWithTag("Enemy") == null)
+        {
+            animator.SetBool("LaserOff", true);
+            boxCollider.isTrigger = true;
+        }
     }
 }
