@@ -14,8 +14,13 @@ public class Enemy : MonoBehaviour
     public int maxHealth = 100;
     int currentHealth;
     
+    public AudioSource saberHit;
+
     public void Start()
     {
+
+        saberHit = GetComponent<AudioSource> ();
+
         //chooses a random position for stormtrooper to move to.
         startPos = new Vector2(Random.Range(-10f, 9f), Random.Range(-5f, 4f));
 
@@ -46,6 +51,10 @@ public class Enemy : MonoBehaviour
 
         public void TakeDamage(int damage)
     {
+        
+
+        saberHit.Play();
+
         currentHealth -= damage;
 
         animator.SetTrigger("Hurt");
