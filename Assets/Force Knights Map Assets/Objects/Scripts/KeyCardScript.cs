@@ -15,4 +15,13 @@ public class KeyCardScript : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "Player")
+        {
+            // destroy this object
+            Destroy(gameObject);
+        }
+    }
 }
