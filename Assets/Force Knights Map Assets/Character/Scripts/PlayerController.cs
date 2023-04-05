@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private float dashCounter;
     private float dashCoolCounter;
     public Animator animator;
+    
 
     void Start()
     {

@@ -631,6 +631,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6115118730076281778, guid: 866565cd676dbc4458078200153707af, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 866565cd676dbc4458078200153707af, type: 3}
 --- !u!1001 &1949755862
@@ -711,6 +715,14 @@ PrefabInstance:
     - target: {fileID: 295099222638657709, guid: 09e85a4e01f28fe4ca2ae3bcd140dbf8, type: 3}
       propertyPath: m_Name
       value: Character 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969114107831240331, guid: 09e85a4e01f28fe4ca2ae3bcd140dbf8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969114107831240333, guid: 09e85a4e01f28fe4ca2ae3bcd140dbf8, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4969114108349466060, guid: 09e85a4e01f28fe4ca2ae3bcd140dbf8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -838,6 +850,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 183982996}
+    - target: {fileID: 7271715328348796471, guid: 8ea8b1435cc94cf42ba5027b55d9165c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7271715328348796473, guid: 8ea8b1435cc94cf42ba5027b55d9165c, type: 3}
       propertyPath: m_Name
       value: Stormtrooper 1
