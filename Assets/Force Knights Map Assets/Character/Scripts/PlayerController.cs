@@ -27,7 +27,13 @@ public class PlayerController : MonoBehaviour
     {
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
-        
+
+        // set the y-axis movement to zero during a dash
+        if (dashCounter > 0)
+        {
+            moveInput.y = 0;
+        }
+
         //Animates the character depending on direction of movement.
         animator.SetFloat("Horizontal", moveInput.x);
         animator.SetFloat("Vertical", moveInput.y);
@@ -39,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (dashCoolCounter <= 0 && dashCounter <= 0)
+            if (dashCoolCounter <= 0 && dashCounter <= 0 && moveInput.x != 0)
             {
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
