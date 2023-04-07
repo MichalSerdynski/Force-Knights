@@ -10,11 +10,9 @@ public class DestroyOnTrigger : MonoBehaviour
     private Animator otherAnimator;
     private Collider2D otherCollider;
 
-    public AudioSource doorOpen;
 
     void Start()
     {
-        doorOpen = GetComponent<AudioSource>();
         //Finds components for the door to animate and open
         otherCollider = doorToOpen.GetComponent<BoxCollider2D>();
         otherAnimator = doorToOpen.GetComponent<Animator>();
@@ -35,16 +33,9 @@ public class DestroyOnTrigger : MonoBehaviour
             
             // Disable the object's audio source
             AudioSource audioSource = objToDestroy.GetComponent<AudioSource>();
-            if (audioSource != null)
-            {
-                audioSource.enabled = false;
-            }
             
-            // Play the doorOpen sound if the audio source is enabled
-            if (doorOpen.enabled)
-            {
-                doorOpen.Play();
-            }
+            
+            
         }
     }
 }
