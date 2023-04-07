@@ -6,10 +6,12 @@ public class EnemyDamage : MonoBehaviour
 {
     public PlayerHealth playerHealth;
     public int damage = 1;
+    HealthScript healthScript;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        healthScript = GameObject.FindGameObjectWithTag("Health").GetComponent<HealthScript>();
     }
 
     // Update is called once per frame
@@ -23,6 +25,7 @@ public class EnemyDamage : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             playerHealth.TakeDamage(damage);
+            healthScript.ChangeSprite();
         }
     }
 }
