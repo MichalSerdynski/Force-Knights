@@ -16,6 +16,14 @@ public class PlayerCombat : MonoBehaviour
     public float attackRate = 2f;
     float nextAttackTime = 0f;
 
+    public AudioSource saberSwing;
+
+
+    public void Start(){
+        saberSwing = GetComponent<AudioSource> ();
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +41,8 @@ public class PlayerCombat : MonoBehaviour
     {
         // Attack animation
         animator.SetTrigger("Attack");
+
+        saberSwing.Play();
 
         // Detect enemies in range
        Collider2D[] hitEnemies =  Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
