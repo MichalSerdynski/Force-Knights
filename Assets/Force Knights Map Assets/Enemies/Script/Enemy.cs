@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float within_range;
     public float speed;
     public Vector2 startPos;
-
+    public Rigidbody2D rigidbody;
     public int maxHealth = 100;
     int currentHealth;
     
@@ -68,6 +68,9 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         Debug.Log("Enemy died");
+        speed = 0;
+        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
+        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
 
         animator.SetBool("IsDead", true);
 
