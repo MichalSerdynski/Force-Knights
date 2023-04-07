@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class DoorScript: MonoBehaviour
 {
     public AudioSource doorSound;  // reference to the audio source component that will play the sound
 

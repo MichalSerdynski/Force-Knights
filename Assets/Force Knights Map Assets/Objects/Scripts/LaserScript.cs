@@ -6,7 +6,7 @@ public class LaserScript : MonoBehaviour
 {
     public Animator animator;
     public BoxCollider2D boxCollider;
-
+    public AudioSource laserSound;
 
 
     
@@ -21,5 +21,9 @@ public class LaserScript : MonoBehaviour
         
     }
 }
+    void PlayLaserSound()
+    {
 
+        laserSound.Play();
+    }
 }
