@@ -4,51 +4,28 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
-    public float dirX;
-    public float moveSpeed;
-    public Rigidbody2D rb;
-    public bool facingRight = false;
-    private Vector3 localScale;
+    public float speed = 60f;
+    public bool facingRight = true;
 
-    // Use this for initialization
-    void Start()
+    private Rigidbody2D rb;
+
+    private void Start()
     {
-        localScale = transform.localScale;
-        rb = GetComponent <Rigidbody2D>();
-        dirX = -1f;
-        moveSpeed = 2f;
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    private void OnCollision2D(Collider2D other)
+    private void FixedUpdate()
     {
-        Debug.Log("Object that collided with me: " + other.gameObject.name);
-        
-        if (other.gameObject.name == "Walls")
+        float moveDirection = facingRight ? 1f : -1f;
+        Vector2 movement = new Vector2(moveDirection * speed * Time.fixedDeltaTime, rb.velocity.y);
+        rb.velocity = movement;
+    }
+
+    private void OnCollision2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            dirX *= -1f;
+            facingRight = !facingRight;
         }
-    }
-    void FixedUpdate()
-    {
-        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-    }
-
-    void LateUpdate()
-    {
-        CheckWhereToFace();
-    }
-
-    void CheckWhereToFace()
-    {
-        if (dirX > 0)
-            facingRight = true;
-        else if (dirX < 0)
-            facingRight = false;
-
-        if (((facingRight) && (localScale.x < 0)) || ((!facingRight) && (localScale.x > 0)))
-            localScale.x *= -1;
-
-        transform.localScale = localScale;
     }
 }
