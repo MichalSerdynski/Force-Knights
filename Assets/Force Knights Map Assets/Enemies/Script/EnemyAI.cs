@@ -4,93 +4,86 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float walkSpeed = 2f;
-    public float detectionRadius = 5f;
-    public int maxHealth = 3;
-    public int damage = 1;
-
-    private Rigidbody2D rb;
+    public float speed = 3f;
+    public float detectionRange = 3f;
+    public float health = 1f;
+    public GameObject wallsObject;
+    public AudioSource saberHit;
     private Vector2 targetPosition;
-    private int currentHealth;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
         targetPosition = GetRandomPosition();
+        saberHit = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        // Move towards the target position
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
+        // If close to the target position, get a new random position
         if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
         {
             targetPosition = GetRandomPosition();
         }
 
-        if (PlayerIsNearby())
+        // Check if the player is nearby and move towards them
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null && Vector2.Distance(transform.position, playerObject.transform.position) < detectionRange)
         {
-            MoveTowardsPlayer();
-        }
-        else
-        {
-            MoveTowardsTargetPosition();
+            targetPosition = playerObject.transform.position;
         }
     }
 
     private Vector2 GetRandomPosition()
     {
-        float randomX = Random.Range(-6f, 16f);
-        float randomY = Random.Range(-6f, 6f);
-        return new Vector2(randomX, randomY);
+        // Get the bounds of the walls object
+        Collider2D wallsCollider = wallsObject.GetComponent<Collider2D>();
+        Vector2 minBounds = wallsCollider.bounds.min;
+        Vector2 maxBounds = wallsCollider.bounds.max;
+
+        // Get a random position within the bounds
+        Vector2 randomPosition = new Vector2(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y));
+
+        return randomPosition;
     }
 
-    private bool PlayerIsNearby()
+    public void TakeDamage(float damage)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
-        foreach (Collider2D collider in colliders)
+        saberHit.Play();
+        health -= damage;
+        if (health <= 0)
         {
-            if (collider.CompareTag("Player"))
-            {
-                return true;
-            }
+            // Flash and destroy the game object
+            StartCoroutine(DestroyEnemy());
         }
-        return false;
     }
 
-    private void MoveTowardsPlayer()
+    private IEnumerator DestroyEnemy()
     {
-        Vector2 direction = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized;
-        rb.velocity = direction * walkSpeed;
-    }
+        float flashTime = 0.1f;
+        float elapsedTime = 0f;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-    private void MoveTowardsTargetPosition()
-    {
-        Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-        rb.velocity = direction * walkSpeed;
-    }
+        while (elapsedTime < flashTime)
+        {
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(flashTime / 2f);
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(flashTime / 2f);
+            elapsedTime += flashTime;
+        }
 
-    private void Die()
-    {
         Destroy(gameObject);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Vector2 repelDirection = (collision.transform.position - transform.position).normalized;
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(repelDirection * walkSpeed, ForceMode2D.Impulse);
-            currentHealth -= damage;
-        }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        // Draw a sphere to show the detection range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
+
+    
 }
