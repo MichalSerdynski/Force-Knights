@@ -530,6 +530,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorSound: {fileID: 1357551345}
+--- !u!50 &327607007 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+  m_PrefabInstance: {fileID: 669478705}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &362107508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -585,16 +590,57 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_UseFullKinematicContacts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770843, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1390748489}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1615465691}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: wallsObject
       value: 
       objectReference: {fileID: 1386763136}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: pushbackForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: detectionRange
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+--- !u!50 &416571638 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+  m_PrefabInstance: {fileID: 4268553825562702655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &509696101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -746,10 +792,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770843, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1762460180}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1615465691}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: wallsObject
       value: 
       objectReference: {fileID: 1386763136}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: pushbackForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: detectionRange
       value: 3
@@ -811,10 +885,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770843, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 327607007}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1615465691}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: wallsObject
       value: 
       objectReference: {fileID: 1386763136}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: pushbackForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: detectionRange
       value: 3
@@ -1353,10 +1455,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770843, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1403149124}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1615465691}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: wallsObject
       value: 
       objectReference: {fileID: 1386763136}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: pushbackForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: detectionRange
       value: 3
@@ -6486,6 +6612,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!50 &1390748489 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+  m_PrefabInstance: {fileID: 362107508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1403149124 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+  m_PrefabInstance: {fileID: 1239719129}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1545246430 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8589753142294063544, guid: bcd466383608d2841b718a58b683942a, type: 3}
@@ -6605,7 +6741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  dashDistance: 3
+  dashDistance: 4
   dashTime: 0.25
   maxHealth: 6
   currentHealth: 0
@@ -6745,6 +6881,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1762460180 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+  m_PrefabInstance: {fileID: 618732313}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1926537750
 GameObject:
   m_ObjectHideFlags: 0
@@ -7345,13 +7486,37 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
-      propertyPath: m_CollisionDetection
+      propertyPath: m_BodyType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917344556827770843, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 416571638}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1615465691}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: wallsObject
       value: 
       objectReference: {fileID: 1386763136}
+    - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
+      propertyPath: pushbackForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4470119450284386481, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
       propertyPath: detectionRange
       value: 3

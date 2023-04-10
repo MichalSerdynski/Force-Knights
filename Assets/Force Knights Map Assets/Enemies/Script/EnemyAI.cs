@@ -10,6 +10,9 @@ public class EnemyAI : MonoBehaviour
     public GameObject wallsObject;
     public AudioSource saberHit;
     private Vector2 targetPosition;
+    public Rigidbody2D rb;
+    public float pushbackForce = 10f;
+    public GameObject player;
 
     private void Start()
     {
@@ -44,7 +47,7 @@ public class EnemyAI : MonoBehaviour
         Vector2 maxBounds = wallsCollider.bounds.max;
 
         // Get a random position within the bounds
-        Vector2 randomPosition = new Vector2(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y));
+        Vector2 randomPosition = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
 
         return randomPosition;
     }
@@ -53,11 +56,21 @@ public class EnemyAI : MonoBehaviour
     {
         saberHit.Play();
         health -= damage;
+        Vector2 direction = (transform.position - player.transform.position).normalized;
+        rb.AddForce(direction * pushbackForce, ForceMode2D.Impulse);
+
         if (health <= 0)
         {
             // Flash and destroy the game object
             StartCoroutine(DestroyEnemy());
         }
+    }
+
+    private IEnumerator PushBack(Vector2 direction)
+    {
+        rb.AddForce(direction * 500f, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.1f);
+        rb.velocity = Vector2.zero;
     }
 
     private IEnumerator DestroyEnemy()

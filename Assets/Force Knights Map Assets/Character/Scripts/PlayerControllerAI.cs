@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerControllerAI : MonoBehaviour
 {
     public float speed = 5f;
-    public float dashDistance = 3f;
-    public float dashTime = 0.5f;
+    public float dashDistance = 10f;
+    public float dashTime = 1f;
     public int maxHealth = 6;
     public int currentHealth;
     public float invincibilityTime = 1f;
@@ -71,7 +71,7 @@ public class PlayerControllerAI : MonoBehaviour
             {
                 // Call the TakeDamage function on the EnemyController script component
                 enemyAI.TakeDamage(1);
-            }
+               }
         }
     }
     private void FixedUpdate()
@@ -135,7 +135,7 @@ public class PlayerControllerAI : MonoBehaviour
     private IEnumerator PushBack(Vector2 direction)
     {
         rb.AddForce(direction * 500f, ForceMode2D.Impulse);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         rb.velocity = Vector2.zero;
     }
 
