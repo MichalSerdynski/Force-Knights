@@ -6742,16 +6742,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   dashDistance: 4
-  dashTime: 0.25
+  dashTime: 0.5
+  footstep: {fileID: 1178999179}
   maxHealth: 6
   currentHealth: 0
   invincibilityTime: 1
-  footstep: {fileID: 1178999179}
   saberSwing: {fileID: 1615465693}
   enemiesLayer:
     serializedVersion: 2
     m_Bits: 64
-  attackRange: 0.5
+  attackRange: 1
   attackPoint: {fileID: 1347995290}
 --- !u!1 &1749692170
 GameObject:

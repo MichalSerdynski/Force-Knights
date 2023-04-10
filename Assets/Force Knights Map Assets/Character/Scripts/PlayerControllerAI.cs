@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class PlayerControllerAI : MonoBehaviour
 {
+    private Rigidbody2D rb;
+    private Animator anim;
+
     public float speed = 5f;
     public float dashDistance = 10f;
     public float dashTime = 1f;
+    private float dashTimer = 0f;
+    private bool isDashing = false;
+    public GameObject footstep;
+    private Vector2 movement;
+    
     public int maxHealth = 6;
     public int currentHealth;
     public float invincibilityTime = 1f;
-    public GameObject footstep;
-    private Rigidbody2D rb;
-    private Animator anim;
-    private Vector2 movement;
-    private bool isDashing = false;
     private bool isInvincible = false;
-    private float dashTimer = 0f;
+ 
     public AudioSource saberSwing;
     public LayerMask enemiesLayer;
     public float attackRange = 0.5f;
@@ -54,26 +57,31 @@ public class PlayerControllerAI : MonoBehaviour
         }
     }
     public void Attack()
+{
+    anim.SetTrigger("Attack");
+    saberSwing.Play();
+    // Check for enemy hit
+    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemiesLayer);
+
+    // Damage enemy if hit
+    foreach (Collider2D enemy in hitEnemies)
     {
-        anim.SetTrigger("Attack");
-        saberSwing.Play();
-        // Check for enemy hit
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemiesLayer);
+        // Get the EnemyController script component from the enemy
+        EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
 
-        // Damage enemy if hit
-        foreach (Collider2D enemy in hitEnemies)
+        // If the enemy has an EnemyController script component
+        if (enemyAI != null)
         {
-            // Get the EnemyController script component from the enemy
-            EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+            // Call the TakeDamage function on the EnemyController script component
+            enemyAI.TakeDamage(1);
 
-            // If the enemy has an EnemyController script component
-            if (enemyAI != null)
-            {
-                // Call the TakeDamage function on the EnemyController script component
-                enemyAI.TakeDamage(1);
-               }
+            // Push the enemy away from the player
+            Vector2 pushDirection = (enemy.transform.position - transform.position).normalized;
+            enemy.GetComponent<Rigidbody2D>().AddForce(pushDirection * 500f, ForceMode2D.Impulse);
         }
     }
+}
+
     private void FixedUpdate()
     {
         if (isDashing)
