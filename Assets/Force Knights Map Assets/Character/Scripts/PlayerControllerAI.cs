@@ -50,10 +50,11 @@ public class PlayerControllerAI : MonoBehaviour
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && movement.x != 0)
         {
             isDashing = true;
             dashTimer = 0f;
+            anim.SetTrigger("Dash");
         }
     }
     public void Attack()
@@ -154,6 +155,7 @@ public class PlayerControllerAI : MonoBehaviour
 
     private void Dash()
     {
+        
         dashTimer += Time.fixedDeltaTime;
         
         if (dashTimer >= dashTime)
@@ -161,7 +163,7 @@ public class PlayerControllerAI : MonoBehaviour
             isDashing = false;
             return;
         }
-        anim.SetTrigger("Dash");
+        
         float distance = Mathf.Min(dashDistance, dashTime - dashTimer);
         Vector2 direction = new Vector2(movement.x, 0f).normalized;
         rb.MovePosition(rb.position + direction * distance);
