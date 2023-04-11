@@ -2,25 +2,29 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3f;
     public float idleTime = 3f;
     public float attackRange = 2f;
     public float stompRange = 3f;
     public int maxHealth = 100;
-    public int damagePerHit = 10;
-    public float stompForce = 10f;
+    public int damagePerHit = 2;
+    public float stompForce = 500f;
     private int currentHealth;
     private bool isIdle;
     private bool isAttacking;
     private bool isStomping;
     private bool isMovingLeft;
+    private bool isMoving;
+    private bool hasAttacked;
     private bool isFacingLeft = true;
     private Animator animator;
     private Transform playerTransform;
     public LayerMask playerLayer;
+    public float direction;
 
     private void Start()
     {
+        isMoving = true;
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -28,24 +32,33 @@ public class BossScript : MonoBehaviour
 
     private void Update()
     {
+        //Makes animator know left or right movement
+        animator.SetFloat("Horizontal", direction);
+
+        //If it is not attacking or stomping it will make the boss move
         if (!isAttacking && !isStomping)
         {
             Move();
-            CheckAttack();
+            
         }
+        
+        CheckAttack();
+        
     }
-
+    //START OF MOVEMENT AND CHECKING FOR WALLS
     private void Move()
     {
+
         animator.SetTrigger("Boss_Move");
-        float direction = isMovingLeft ? -1f : 1f;
+        direction = isMovingLeft ? -1f : 1f;
         Vector3 movement = new Vector3(direction * moveSpeed * Time.deltaTime, 0f, 0f);
         transform.Translate(movement);
+        
 
         if (isMovingLeft && CheckLeftWall() || !isMovingLeft && CheckRightWall())
-        {
+       {
             isMovingLeft = !isMovingLeft;
-            Flip();
+           
         }
     }
 
@@ -53,7 +66,7 @@ public class BossScript : MonoBehaviour
     {
         Vector2 position = transform.position;
         position.x -= 0.5f * transform.localScale.x;
-        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.left, 0.1f);
+        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.left, 0.2f);
         return hit.collider != null && hit.collider.CompareTag("Wall");
     }
 
@@ -61,60 +74,82 @@ public class BossScript : MonoBehaviour
     {
         Vector2 position = transform.position;
         position.x += 0.5f * transform.localScale.x;
-        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.right, 0.1f);
+        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.right, 0.2f);
         return hit.collider != null && hit.collider.CompareTag("Wall");
     }
+    //END OF MOVEMENT AND CHECKING FOR WALLS
 
-    private void Flip()
-    {
-        isFacingLeft = !isFacingLeft;
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-    }
-
+    // Checks if player is nearby to start attack
     private void CheckAttack()
     {
-        float distance = Vector2.Distance(transform.position, playerTransform.position);
-
-        if (distance <= attackRange)
+        // Get a reference to the player GameObject
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        // Check if the player is within attack range
+        if (Vector3.Distance(transform.position, player.transform.position) <= attackRange || (!hasAttacked && !isMoving))
         {
-            isAttacking = true;
-            animator.SetTrigger("Boss_Swipe");
+                
+            // Triggers Attack Method
+            Attack();
         }
     }
-
+    // Controls animation for atack and stops movement
     private void Attack()
     {
-        if (!isIdle)
-        {
-            isIdle = true;
-            Invoke("EndIdle", idleTime);
-        }
+        animator.ResetTrigger("Boss_Move");
+        //Stops boss attacking over and over again
+        hasAttacked = true;
+        // Stops Boss moving
+        moveSpeed = 0f;
+        // Trigger the "Boss_Swipe" animation
+        animator.SetTrigger("Boss_Swipe");
 
-        if (isAttacking)
+        
+    }
+    // Causes Damage to player only as the attack hits
+    private void Hit()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (Vector3.Distance(transform.position, player.transform.position) <= stompRange)
         {
-            isAttacking = false;
+            PlayerControllerAI playerControllerAI = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerAI>();
+
+            playerControllerAI.TakeDamage(2);
         }
     }
+    // Starts Idle and opens up Boss for attack
+    private void Idle()
+    {
+        animator.ResetTrigger("Boss_Swipe");
+        animator.SetTrigger("Idle");
+        isIdle = true;
+    }
+    //Ends Idle and begins Stomp
     private void EndIdle()
     {
-        isIdle = false;
+        
         animator.SetTrigger("Boss_Stomp");
         isStomping = true;
-        Invoke("EndStomp", animator.GetCurrentAnimatorStateInfo(0).length);
+        //Invoke("EndStomp", animator.GetCurrentAnimatorStateInfo(0).length);
     }
+    // Stomps to push player back
     private void Stomp()
     {
         animator.SetTrigger("Boss_Stomp");
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, stompRange, playerLayer);
-        foreach (Collider2D hit in hits)
-        {
-            hit.GetComponent<Rigidbody2D>().AddForce(Vector2.down * stompForce, ForceMode2D.Impulse);
-        }
+       //NEED TO ADD PUSHBACK!!!!
     }
-
+    // After the stomp this resets the boss to start everything again
     private void EndStomp()
     {
-        isStomping = false;
+        animator.ResetTrigger("Boss_Stomp");
+        moveSpeed = 3f;
+    isIdle = false;
+    isAttacking = false;
+    isStomping = false;
+    isMovingLeft = false;
+    isMoving = true;
+    hasAttacked = false;
+    isFacingLeft = true;
+        Move();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -126,6 +161,7 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    // Takes damage only during Idle animation, starts death after health reaches 0
     public void TakeDamage(int amount)
     {
         if (!isIdle) return;
@@ -138,21 +174,34 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    //Starts death animation and stops movement (if moving)
     private void Die()
     {
+        moveSpeed = 0f;
         animator.SetTrigger("Boss_Death");
-        GetComponent<Collider2D>().enabled = false;
-        GetComponent<Rigidbody2D>().simulated = false;
-        this.enabled = false;
+        
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //Destroys Boss after death animation
+    private void DeathAfterAnimation()
     {
-        if (collision.CompareTag("Player") && isIdle)
-        {
-            collision.GetComponent<PlayerControllerAI>().TakeDamage(damagePerHit);
-            Attack();
+        Destroy(gameObject);
+    }
 
-        }
+    //private void OnTriggerEnter2D(Collider2D collision)
+   // {
+     //   if (collision.CompareTag("Player") && isIdle)
+    //    {
+     //       collision.GetComponent<PlayerControllerAI>().TakeDamage(damagePerHit);
+    //        //Attack();
+//
+   //     }
+  // }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Draw a sphere to show the detection range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
