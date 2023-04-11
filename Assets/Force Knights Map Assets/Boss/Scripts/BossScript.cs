@@ -21,13 +21,19 @@ public class BossScript : MonoBehaviour
     private Transform playerTransform;
     public LayerMask playerLayer;
     public float direction;
+    public GameObject player;
+    public GameObject boss;
+
 
     private void Start()
     {
+        
         isMoving = true;
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
+        boss = GameObject.FindGameObjectWithTag("Boss");
     }
 
     private void Update()
@@ -123,24 +129,38 @@ public class BossScript : MonoBehaviour
         animator.SetTrigger("Idle");
         isIdle = true;
     }
-    //Ends Idle and begins Stomp
-    private void EndIdle()
-    {
-        
-        animator.SetTrigger("Boss_Stomp");
-        isStomping = true;
-        //Invoke("EndStomp", animator.GetCurrentAnimatorStateInfo(0).length);
-    }
-    // Stomps to push player back
+   
+    
+   // Stomps to push player back
     private void Stomp()
     {
         animator.SetTrigger("Boss_Stomp");
-       //NEED TO ADD PUSHBACK!!!!
+        isStomping = true;
+        animator.ResetTrigger("Boss_Stomp");
+
+}
+    public void StompPlayerIfInRange()
+    {
+      
+        // Calculate the distance between the player and the enemy
+        float distance = Vector3.Distance(player.transform.position, boss.transform.position);
+
+        // Check if the player is within stompRange of the enemy
+        if (distance <= stompRange)
+        {
+            // Calculate the direction from the enemy to the player
+            Vector3 direction = player.transform.position - boss.transform.position;
+            direction.Normalize();
+
+            // Push the player in the opposite direction
+            player.GetComponent<Rigidbody2D>().AddForce(direction * -1.0f * stompForce, ForceMode2D.Impulse);
+        }
     }
+
     // After the stomp this resets the boss to start everything again
     private void EndStomp()
     {
-        animator.ResetTrigger("Boss_Stomp");
+        
         moveSpeed = 3f;
     isIdle = false;
     isAttacking = false;
@@ -152,14 +172,14 @@ public class BossScript : MonoBehaviour
         Move();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (isStomping && collision.gameObject.CompareTag("Player"))
-        {
-            Vector2 direction = (collision.transform.position - transform.position).normalized;
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(direction * stompRange, ForceMode2D.Impulse);
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //   if (isStomping && collision.gameObject.CompareTag("Player"))
+    //    {
+    //        Vector2 direction = (collision.transform.position - transform.position).normalized;
+    //        collision.gameObject.GetComponent<Rigidbody2D>().AddForce(direction * stompRange, ForceMode2D.Impulse);
+    //    }
+    // }
 
     // Takes damage only during Idle animation, starts death after health reaches 0
     public void TakeDamage(int amount)
