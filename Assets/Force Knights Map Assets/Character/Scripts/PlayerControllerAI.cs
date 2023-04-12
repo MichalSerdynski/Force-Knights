@@ -58,30 +58,45 @@ public class PlayerControllerAI : MonoBehaviour
         }
     }
     public void Attack()
-{
-    anim.SetTrigger("Attack");
-    saberSwing.Play();
-    // Check for enemy hit
-    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemiesLayer);
-
-    // Damage enemy if hit
-    foreach (Collider2D enemy in hitEnemies)
     {
-        // Get the EnemyController script component from the enemy
-        EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+        anim.SetTrigger("Attack");
+        saberSwing.Play();
 
-        // If the enemy has an EnemyController script component
-        if (enemyAI != null)
+        // Check for enemy hit
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemiesLayer);
+
+        // Damage enemy if hit
+        foreach (Collider2D enemy in hitEnemies)
         {
-            // Call the TakeDamage function on the EnemyController script component
-            enemyAI.TakeDamage(1);
+            // Get the EnemyAI script component from the enemy
+            EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
 
-            // Push the enemy away from the player
-            Vector2 pushDirection = (enemy.transform.position - transform.position).normalized;
-            enemy.GetComponent<Rigidbody2D>().AddForce(pushDirection * 500f, ForceMode2D.Impulse);
+            // Get the BossScript component from the enemy
+            BossScript bossScript = enemy.GetComponent<BossScript>();
+
+            // If the enemy has an EnemyAI component
+            if (enemyAI != null)
+            {
+                // Call the TakeDamage function on the EnemyAI script component
+                enemyAI.TakeDamage(1);
+
+                // Push the enemy away from the player
+                Vector2 pushDirection = (enemy.transform.position - transform.position).normalized;
+                enemy.GetComponent<Rigidbody2D>().AddForce(pushDirection * 500f, ForceMode2D.Impulse);
+            }
+
+            // If the enemy has a BossScript component
+            if (bossScript != null)
+            {
+                // Call the TakeDamage function on the BossScript component
+                bossScript.TakeDamage(1);
+
+                // Push the enemy away from the player
+                Vector2 pushDirection = (enemy.transform.position - transform.position).normalized;
+                enemy.GetComponent<Rigidbody2D>().AddForce(pushDirection * 500f, ForceMode2D.Impulse);
+            }
         }
     }
-}
 
     private void FixedUpdate()
     {

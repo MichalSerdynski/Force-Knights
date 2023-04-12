@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossScript : MonoBehaviour
+public class BossScript1 : MonoBehaviour
 {
     public float moveSpeed;
     public float idleTime = 3f;
@@ -28,12 +28,11 @@ public class BossScript : MonoBehaviour
     public float invincibilityTime = 1f;
     private bool isInvincible = false;
     private Rigidbody2D rigidbody;
-    public Transform stompPosition;
-
     private void Start()
     {
+        StartCoroutine(BossCoroutine());
         rigidbody = GetComponent<Rigidbody2D>();
-        isMoving = true;
+        
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -54,9 +53,49 @@ public class BossScript : MonoBehaviour
             
         }
 
-       // CheckAttack();
+        StartCoroutine(CheckAttackCoroutine());
         
     }
+
+    private IEnumerator BossCoroutine()
+    {
+        while (true)
+        {
+            // Boss moves left and right until player is within stomp range
+            while (Vector3.Distance(transform.position, playerTransform.position) > stompRange)
+            {
+                isIdle = false;
+                isAttacking = false;
+                isStomping = false;
+                isMoving = true;
+                Move();
+                yield return null;
+            }
+
+            // Boss stops moving and attacks once player is within attack range
+            isMoving = false;
+            isAttacking = true;
+            StartCoroutine(CheckAttackCoroutine());
+            yield return new WaitUntil(() => !isAttacking);
+
+            // Boss goes idle for a set amount of time
+            isIdle = true;
+            animator.ResetTrigger("Boss_Swipe");
+            animator.SetTrigger("Idle");
+            yield return new WaitForSeconds(idleTime);
+
+            // Boss stomps and pushes player back
+            isIdle = false;
+            isStomping = true;
+            animator.SetTrigger("Boss_Stomp");
+            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Idle"));
+
+            // Boss starts moving again
+            isStomping = false;
+            isMoving = true;
+        }
+    }
+
     //START OF MOVEMENT AND CHECKING FOR WALLS
     private void Move()
     {
@@ -71,18 +110,6 @@ public class BossScript : MonoBehaviour
        {
             isMovingLeft = !isMovingLeft;
            
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            // Stop walking left and right
-            isMoving = false;
-
-            // Start attacking
-            Attack();
         }
     }
 
@@ -104,23 +131,40 @@ public class BossScript : MonoBehaviour
     //END OF MOVEMENT AND CHECKING FOR WALLS
 
     // Checks if player is nearby to start attack
-   // private void CheckAttack()
-   // {
-   //     // Get a reference to the player GameObject
-   //     GameObject player = GameObject.FindGameObjectWithTag("Player");
-   //     // Check if the player is within attack range
-   //     if (Vector3.Distance(transform.position, player.transform.position) <= attackRange || (!hasAttacked && !isMoving))
-   //     {
-   //         // Stops Boss moving
-   //        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
-   //         rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
-   //         // Triggers Attack Method
-   //         Attack();
-   //         
-   //     }
+    //private void CheckAttack()
+    //{
+    //    // Get a reference to the player GameObject
+    //    GameObject player = GameObject.FindGameObjectWithTag("Player");
+    //    // Check if the player is within attack range
+    //    if (Vector3.Distance(transform.position, player.transform.position) <= attackRange || (!hasAttacked && !isMoving))
+    //    {
+    //        // Stops Boss moving
+    //        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
+    //        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+    //        // Triggers Attack Method
+    //        Attack();
+    //        
+    //    }
    // }
 
-    
+    private IEnumerator CheckAttackCoroutine()
+    {
+        // Get a reference to the player GameObject
+        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        // Check if the player is within attack range
+        if (Vector3.Distance(transform.position, player.transform.position) <= attackRange || (!hasAttacked && !isMoving))
+        {
+            // Stops Boss moving
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            // Wait before starting the attack
+            yield return new WaitForFixedUpdate();
+            // Triggers Attack Method
+            Attack();
+
+        }
+    }
             // Controls animation for atack and stops movement
             private void Attack()
     {
@@ -158,45 +202,34 @@ public class BossScript : MonoBehaviour
     {
         animator.SetTrigger("Boss_Stomp");
         isStomping = true;
-        isIdle = false;
         //animator.ResetTrigger("Boss_Stomp");
 
     }
 
-    public void stompPlayerIfInRange()
+    public void StompPlayerIfInRange()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(stompPosition.position, stompRange);
-        foreach (Collider2D collider in colliders)
+      
+        // Calculate the distance between the player and the enemy
+        float distance = Vector3.Distance(player.transform.position, boss.transform.position);
+
+        // Check if the player is within stompRange of the enemy
+        if (distance <= stompRange)
         {
-            if (collider.CompareTag("Player"))
-            {
-                // Move the player back
-                Vector2 pushDirection = (collider.transform.position - stompPosition.position).normalized;
-                collider.GetComponent<Rigidbody2D>().AddForce(pushDirection * stompForce, ForceMode2D.Impulse);
-            }
+            // Calculate the direction from the enemy to the player
+            Vector3 direction = player.transform.position - boss.transform.position;
+            direction.Normalize();
+
+            // Push the player in the opposite direction
+            player.GetComponent<Rigidbody2D>().AddForce(direction * -1.0f * stompForce, ForceMode2D.Impulse);
         }
     }
-    // Calculate the distance between the player and the enemy
-    // float distance = Vector3.Distance(player.transform.position, boss.transform.position);
-
-    // Check if the player is within stompRange of the enemy
-    //if (distance <= stompRange)
-    //{
-    // Calculate the direction from the enemy to the player
-    //  Vector3 direction = player.transform.position - boss.transform.position;
-    // direction.Normalize();
-
-    // Push the player in the opposite direction
-    // player.GetComponent<Rigidbody2D>().AddForce(direction * 1.0f * stompForce, ForceMode2D.Impulse);
-    //}
-
 
     // After the stomp this resets the boss to start everything again
     private IEnumerator EndStompCoroutine()
     {
-        
-        
-        
+        rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+        rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+        isIdle = false;
         isAttacking = false;
         isStomping = false;
         isMovingLeft = false;

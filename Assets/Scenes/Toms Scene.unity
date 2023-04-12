@@ -6886,6 +6886,64 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 917344556827770842, guid: a3ad1c359c3e250488b527f7af4291c0, type: 3}
   m_PrefabInstance: {fileID: 618732313}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1782027425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7736450784054528427, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+  m_PrefabInstance: {fileID: 7736450785081086723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1782027431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7736450784054528431, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+  m_PrefabInstance: {fileID: 7736450785081086723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1915111661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1915111662}
+  - component: {fileID: 1915111663}
+  m_Layer: 2
+  m_Name: stompRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1915111662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915111661}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1782027431}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1915111663
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915111661}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.012777929, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.65333515
 --- !u!1 &1926537750
 GameObject:
   m_ObjectHideFlags: 0
@@ -7530,6 +7588,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: boss
+      value: 
+      objectReference: {fileID: 1782027425}
+    - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1615465691}
+    - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: maxHealth
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: stompPosition
+      value: 
+      objectReference: {fileID: 1782027431}
     - target: {fileID: 7736450784054528427, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
       propertyPath: m_Name
       value: Boss
@@ -7537,6 +7615,22 @@ PrefabInstance:
     - target: {fileID: 7736450784054528427, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
       propertyPath: m_TagString
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528429, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: m_Mass
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528429, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: m_Constraints
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528429, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528430, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7736450784054528431, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
       propertyPath: m_RootOrder
