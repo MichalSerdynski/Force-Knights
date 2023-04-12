@@ -8,7 +8,7 @@ public class BossScript : MonoBehaviour
     public float idleTime = 3f;
     public float attackRange = 2f;
     public float stompRange = 3f;
-    public int maxHealth = 100;
+    public int maxHealth = 6;
     public int damagePerHit = 2;
     public float stompForce = 500f;
     public int currentHealth;
@@ -74,6 +74,7 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    // If the player walks close to the boss when he is walking it stops him and starts the swipe attack
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -86,6 +87,7 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    //Detects walls to know when to turn around
     private bool CheckLeftWall()
     {
         Vector2 position = transform.position;
@@ -104,25 +106,25 @@ public class BossScript : MonoBehaviour
     //END OF MOVEMENT AND CHECKING FOR WALLS
 
     // Checks if player is nearby to start attack
-   // private void CheckAttack()
-   // {
-   //     // Get a reference to the player GameObject
-   //     GameObject player = GameObject.FindGameObjectWithTag("Player");
-   //     // Check if the player is within attack range
-   //     if (Vector3.Distance(transform.position, player.transform.position) <= attackRange || (!hasAttacked && !isMoving))
-   //     {
-   //         // Stops Boss moving
-   //        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
-   //         rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
-   //         // Triggers Attack Method
-   //         Attack();
-   //         
-   //     }
-   // }
+    // private void CheckAttack()
+    // {
+    //     // Get a reference to the player GameObject
+    //     GameObject player = GameObject.FindGameObjectWithTag("Player");
+    //     // Check if the player is within attack range
+    //     if (Vector3.Distance(transform.position, player.transform.position) <= attackRange || (!hasAttacked && !isMoving))
+    //     {
+    //         // Stops Boss moving
+    //        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
+    //         rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+    //         // Triggers Attack Method
+    //         Attack();
+    //         
+    //     }
+    // }
 
-    
-            // Controls animation for atack and stops movement
-            private void Attack()
+
+    // Controls animation for atack and stops movement
+    private void Attack()
     {
         animator.ResetTrigger("Boss_Move");
         //Stops boss attacking over and over again
@@ -135,12 +137,14 @@ public class BossScript : MonoBehaviour
     }
     // Causes Damage to player only as the attack hits
     private void Hit()
-    {
+    {   //detects the player if within the stompRange
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (Vector3.Distance(transform.position, player.transform.position) <= stompRange)
         {
+            //finds the PlayerController script to find the takeDamage function
             PlayerControllerAI playerControllerAI = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerAI>();
-
+            
+            //causes 2 damage to health of player
             playerControllerAI.TakeDamage(2);
         }
     }
@@ -153,45 +157,35 @@ public class BossScript : MonoBehaviour
     }
    
     
-   // Stomps to push player back
+   // Sets bools and starts Stomp animation
     private void Stomp()
     {
         animator.SetTrigger("Boss_Stomp");
         isStomping = true;
         isIdle = false;
-        //animator.ResetTrigger("Boss_Stomp");
+        
 
     }
-
+    //Used as an animation event to cause a pushback effect to the player during the stomp
     public void stompPlayerIfInRange()
     {
+        
         Collider2D[] colliders = Physics2D.OverlapCircleAll(stompPosition.position, stompRange);
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Player"))
             {
-                // Move the player back
+                // Finds what direction to push the player
                 Vector2 pushDirection = (collider.transform.position - stompPosition.position).normalized;
+                // Move the player back
                 collider.GetComponent<Rigidbody2D>().AddForce(pushDirection * stompForce, ForceMode2D.Impulse);
+
+                Debug.Log("Pushback");
+
             }
         }
     }
-    // Calculate the distance between the player and the enemy
-    // float distance = Vector3.Distance(player.transform.position, boss.transform.position);
-
-    // Check if the player is within stompRange of the enemy
-    //if (distance <= stompRange)
-    //{
-    // Calculate the direction from the enemy to the player
-    //  Vector3 direction = player.transform.position - boss.transform.position;
-    // direction.Normalize();
-
-    // Push the player in the opposite direction
-    // player.GetComponent<Rigidbody2D>().AddForce(direction * 1.0f * stompForce, ForceMode2D.Impulse);
-    //}
-
-
-    // After the stomp this resets the boss to start everything again
+   
     private IEnumerator EndStompCoroutine()
     {
         

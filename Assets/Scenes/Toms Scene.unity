@@ -483,6 +483,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6833351526982942940, guid: 995416021faf8a749a875b2ac74d1adb, type: 3}
+      propertyPath: m_Mass
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6833351526982942940, guid: 995416021faf8a749a875b2ac74d1adb, type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6833351526982942941, guid: 995416021faf8a749a875b2ac74d1adb, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -7603,6 +7611,10 @@ PrefabInstance:
     - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
       propertyPath: maxHealth
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
+      propertyPath: stompForce
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7736450784054528426, guid: 8ea8cbf5484dd0e4ea43ff7662cdbb19, type: 3}
       propertyPath: stompPosition
