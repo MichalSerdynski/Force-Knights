@@ -1166,8 +1166,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660734218}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.8499994, y: 0.5, z: -5.8213987}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.79, y: 0.44, z: -5.8213987}
+  m_LocalScale: {x: 0.9875, y: 0.875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1213,7 +1213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 509696104}
   boxCollider: {fileID: 509696103}
-  laserSound: {fileID: 1199721678}
   enemyCount: 0
   laser: {fileID: 509696102}
   otherCollider: {fileID: 660734220}
@@ -2128,8 +2127,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258518374}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -29.5, y: 11.03, z: 0}
-  m_LocalScale: {x: 3.1, y: 3.1, z: 1}
+  m_LocalPosition: {x: -29.2, y: 11.03, z: 0}
+  m_LocalScale: {x: 3.0225, y: 2.781281, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2149,7 +2148,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1469957800}
   boxCollider: {fileID: 1469957799}
-  laserSound: {fileID: 1199721678}
   enemyCount: 0
   laser: {fileID: 541428120}
   otherCollider: {fileID: 1258518377}
