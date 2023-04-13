@@ -7,7 +7,7 @@ public class EnemyAI : MonoBehaviour
     public float speed = 3f;
     public float detectionRange = 3f;
     public float health = 1f;
-    public GameObject wallsObject;
+    public GameObject roomObject;
     public AudioSource saberHit;
     private Vector2 targetPosition;
     public Rigidbody2D rb;
@@ -42,12 +42,12 @@ public class EnemyAI : MonoBehaviour
     private Vector2 GetRandomPosition()
     {
         // Get the bounds of the walls object
-        Collider2D wallsCollider = wallsObject.GetComponent<Collider2D>();
-        Vector2 minBounds = wallsCollider.bounds.min;
-        Vector2 maxBounds = wallsCollider.bounds.max;
+        Collider2D roomCollider = roomObject.GetComponent<Collider2D>();
+        Vector2 minBounds = roomCollider.bounds.min;
+        Vector2 maxBounds = roomCollider.bounds.max;
 
         // Get a random position within the bounds
-        Vector2 randomPosition = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
+        Vector2 randomPosition = new Vector2(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y));
 
         return randomPosition;
     }
