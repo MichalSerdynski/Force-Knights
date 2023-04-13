@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +24,7 @@ public class PlayerControllerAI : MonoBehaviour
     public LayerMask enemiesLayer;
     public float attackRange = 0.5f;
     public Transform attackPoint;
+    
 
     private void Start()
     {
@@ -36,13 +37,12 @@ public class PlayerControllerAI : MonoBehaviour
 
     private void Update()
     {
-       
+        
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         anim.SetFloat("Horizontal", movement.x);
         anim.SetFloat("Vertical", movement.y);
         anim.SetFloat("Speed", movement.sqrMagnitude);
-        
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -57,6 +57,8 @@ public class PlayerControllerAI : MonoBehaviour
             anim.SetTrigger("Dash");
         }
     }
+
+    
     public void Attack()
     {
         anim.SetTrigger("Attack");
